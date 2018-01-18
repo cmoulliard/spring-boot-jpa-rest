@@ -1,14 +1,12 @@
-# Spring Boot, MySQL, JPA, Hibernate Rest API Tutorial
+# Spring Boot, JPA, Hibernate Rest API Tutorial
 
-Build Restful CRUD API for a simple Note-Taking application using Spring Boot, Mysql, JPA and Hibernate.
+Build Restful CRUD API for a simple Note-Taking application using Spring Boot, Database (H2, MySQL), JPA and Hibernate.
 
 ## Requirements
 
 1. Java - 1.8.x
 
 2. Maven - 3.x.x
-
-3. Mysql - 5.x.x
 
 ## Steps to Setup
 
@@ -17,26 +15,9 @@ Build Restful CRUD API for a simple Note-Taking application using Spring Boot, M
 ```bash
 git clone https://github.com/cmoulliard/spring-boot-jpa-rest.git
 ```
-
-**2. Create Mysql database**
-```bash
-create database notes_app
-```
-
-**3. Change mysql username and password as per your installation**
-
-+ open `src/main/resources/application.properties`
-
-+ change `spring.datasource.username` and `spring.datasource.password` as per your mysql installation
-
 **2. Build and run the app using maven**
 
-```bash
-mvn package
-java -jar target/easy-notes-1.0.0.jar
-```
-
-Alternatively, you can run the app without packaging it using -
+You can run the app using the `spring-boot maven plugin`
 
 ```bash
 mvn clean spring-boot:run -Dspring.profiles.active=local -Ph2
@@ -60,8 +41,32 @@ The app defines following CRUD APIs.
 
 You can test them using postman or any other rest client.
 
-## Learn more
+## Deploy it on CloudFoundry
 
-You can find the tutorial for this application on my blog -
+1. Create first a MySQL service
 
-<https://www.callicoder.com/spring-boot-rest-api-tutorial-with-mysql-jpa-hibernate/>
+```bash
+cf create-service cleardb spark mysql-notes-db 
+```
+
+2. Deploy the Spring boot application without launching it
+
+```bash
+cf push --no-start  
+```
+
+3. Bind the service and start the application
+
+```bash
+cf bs sb-db-rest mysql-notes-db
+```
+
+4. Start the application
+
+```bash
+cf start sb-db-rest
+```
+
+
+
+## Deploy it on OpenShift
