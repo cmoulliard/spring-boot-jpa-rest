@@ -87,6 +87,17 @@ curl -k https://sb-db-rest.cfapps.io/api/notes/1
 
 ## Deploy it on OpenShift
 
+Prereq : The Ansible Service Broker must be installed - https://github.com/openshift/ansible-service-broker/blob/master/docs/minishift.md !
+
+0. Start Minishift with experimental feature and OCP >= v3.7.0-rc.0
+
+```bash
+MINISHIFT_ENABLE_EXPERIMENTAL=y minishift create --service-catalog
+...
+oc new-project ansible-service-broker
+
+```
+
 1. Create a new namespace to host the project
 
 ```bash
@@ -103,32 +114,32 @@ oc new-project demo-spring-db
 oc create -f openshift/mysql-serviceinstance.yml
 ```
 
-2. Create a new app on the cloud platform
+3. Create a new app on the cloud platform
 
 ```bash
 oc new-app -f openshift/spring-boot-db-notes.yml
 ```
 
-3. Start the build
+4. Start the build
 
 ```bash
 oc start-build spring-boot-db-notes-s2i --from-dir=. --follow
 ```
 
-4. Bind the service to a secret
+5. Bind the service to a secret
 
 ```bash
 oc create -f openshift/mysql-bind-spring-boot.yml
 # oc volume dc/spring-boot-db-notes --add --secret-name=spring-boot-notes-mysql-binding
 ```
 
-5. Mount the secret within the dc
+7. Mount the secret within the dc
 
 ```bash
 oc env --from=secret/spring-boot-notes-mysql-binding dc/spring-boot-db-notes
 ```
 
-5. Test the service
+8. Test the service
 
 ```bash
 export HOST=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}')
