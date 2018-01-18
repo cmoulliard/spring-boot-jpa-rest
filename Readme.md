@@ -67,6 +67,12 @@ cf bs sb-db-rest mysql-notes-db
 cf start sb-db-rest
 ```
 
+5. Test the service
 
+```bash
+curl -k https://sb-db-rest.cfapps.io/api/notes 
+curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' https://sb-db-rest.cfapps.io/api/notes 
+curl -k https://sb-db-rest.cfapps.io/api/notes/1
+```
 
 ## Deploy it on OpenShift
