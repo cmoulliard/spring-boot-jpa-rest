@@ -34,6 +34,13 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -57,15 +64,6 @@
 					<groupId>com.h2database</groupId>
 					<artifactId>h2</artifactId>
 					<version>1.4.196</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>mysql</id>
-			<dependencies>
-				<dependency>
-					<groupId>mysql</groupId>
-					<artifactId>mysql-connector-java</artifactId>
 				</dependency>
 			</dependencies>
 		</profile>

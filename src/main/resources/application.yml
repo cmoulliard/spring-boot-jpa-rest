@@ -1,11 +1,23 @@
 ---
 spring:
-  datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/notes_app?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
-    username: root
-    password: root
   jpa:
     hibernate.ddl-auto: update
     show_sql: false
+---
+spring.profiles: local
+spring:
+  datasource:
+    url: jdbc:h2:mem:DEMO
+    username:
+    password: sa
+  jpa:
+    properties.hibernate.dialect: org.hibernate.dialect.H2Dialect
+---
+spring.profiles: cloud
+spring:
+  datasource:
+    url: ${vcap.services.cleardb.credentials.jdbcUrl}
+    username: ${vcap.services.cleardb.credentials.username}
+    password: ${vcap.services.cleardb.credentials.password}
+  jpa:
     properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect

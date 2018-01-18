@@ -39,14 +39,7 @@ java -jar target/easy-notes-1.0.0.jar
 Alternatively, you can run the app without packaging it using -
 
 ```bash
-mvn clean spring-boot:run \
-  -Dspring.datasource.platform=h2 \
-  -Dspring.datasource.url=jdbc:h2:mem:DEMO \
-  -Dspring.datasource.driverClassName=org.h2.Driver \
-  -Dspring.datasource.username=sa \
-  -Dspring.datasource.password= \
-  -Dspring.jpa.database-platform=org.hibernate.dialect.H2Dialect \
-  -Ph2 
+mvn clean spring-boot:run -Dspring.profiles.active=local -Ph2
 ```
 
 The app will start running at <http://localhost:8080>.

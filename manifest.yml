@@ -1,0 +1,12 @@
+---
+applications:
+- name: sb-db-rest
+  memory: 1G
+  instances: 1
+  path:  target/easy-notes-1.0.0.jar
+  env:
+    SPRING_PROFILES_ACTIVE: cloud
+    # SPRING_DATASOURCE_DRIVERCLASSNAME: com.mysql.jdbc.Driver
+    # SPRING_DATASOURCE_URL: ${vcap.services.cleardb.credentials.jdbcUrl}
+    # SPRING_DATASOURCE_USERNAME: ${vcap.services.cleardb.credentials.username}
+    # SPRING_DATASOURCE_PASSWORD: ${vcap.services.cleardb.credentials.password}
