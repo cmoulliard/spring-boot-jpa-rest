@@ -102,6 +102,7 @@ apb serviceinstance
 
 Doesn't work. So we will create the serviceInstance manaully
 oc create -f openshift/mysql-serviceinstance.yml
+
 ```
 
 2. Create a new app on the cloud platform
@@ -114,4 +115,11 @@ oc new-app -f openshift/spring-boot-db-notes.yml
 
 ```bash
 oc start-build spring-boot-db-notes-s2i --from-dir=. --follow
+```
+
+4. Bind and mount the secret
+
+```bash
+oc create -f openshift/mysql-bind-spring-boot.yml
+oc volume dc/spring-boot-db-notes --add --secret-name=spring-boot-notes-mysql-binding
 ```

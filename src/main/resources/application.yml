@@ -4,6 +4,7 @@ spring:
     hibernate.ddl-auto: update
     show_sql: false
 ---
+# Local profile used for labtop demo
 spring.profiles: local
 spring:
   datasource:
@@ -16,11 +17,22 @@ spring:
     console.enabled: true
     console.path: /h2-console
 ---
+# Profile used when app deployed on Cloudfoundry
 spring.profiles: cloudfoundry
 spring:
   datasource:
     url: ${vcap.services.cleardb.credentials.jdbcUrl}
     username: ${vcap.services.cleardb.credentials.username}
     password: ${vcap.services.cleardb.credentials.password}
+  jpa:
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+---
+# Profile used when app deployed on OpenShift
+spring.profiles: openshift
+spring:
+  datasource:
+    url: jdbc:mysql:mysql:3306/${mysql_database.database}
+    username: ${mysql_database.user}
+    password: ${mysql_database.password}
   jpa:
     properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
