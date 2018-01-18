@@ -76,6 +76,8 @@ objects:
               fieldRef:
                 apiVersion: v1
                 fieldPath: metadata.namespace
+          - name: SPRING_PROFILES_ACTIVE
+            value: local
           image: spring-boot-db-notes:latest
           imagePullPolicy: IfNotPresent
           name: spring-boot

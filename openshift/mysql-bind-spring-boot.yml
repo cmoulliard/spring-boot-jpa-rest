@@ -1,0 +1,8 @@
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  name: spring-boot-notes-mysql-binding
+spec:
+  instanceRef:
+    name: mysql
+  secretName: spring-boot-notes-mysql-binding
