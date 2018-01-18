@@ -1,0 +1,12 @@
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: mysql
+spec:
+  clusterServiceClassExternalName: dh-mysql-apb
+  clusterServicePlanExternalName: dev
+  parameters:
+    mysql_database: "devel"
+    mysql_password: "devel"
+    mysql_user: "devel"
+    mysql_version: "5.7"

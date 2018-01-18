@@ -86,3 +86,32 @@ curl -k https://sb-db-rest.cfapps.io/api/notes/1
 ```
 
 ## Deploy it on OpenShift
+
+1. Create a new namespace to host the project
+
+```bash
+oc new-project demo-db
+```
+
+2. Deploy the MySQL Service within the namespace created
+
+```bash
+pip install apb
+git clone https://github.com/ansibleplaybookbundle/mysql-apb.git && cd mysql-apb
+apb serviceinstance
+
+Doesn't work. So we will create the serviceInstance manaully
+oc create -f openshift/mysql-serviceinstance.yml
+```
+
+2. Create a new app on the cloud platform
+
+```bash
+oc new-app -f openshift/spring-boot-db-notes.yml
+```
+
+3. Start the build
+
+```bash
+oc start-build spring-boot-db-notes-s2i --from-dir=. --follow
+```
