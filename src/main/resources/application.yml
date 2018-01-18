@@ -16,7 +16,7 @@ spring:
     console.enabled: true
     console.path: /h2-console
 ---
-spring.profiles: cloud
+spring.profiles: cloudfoundry
 spring:
   datasource:
     url: ${vcap.services.cleardb.credentials.jdbcUrl}
