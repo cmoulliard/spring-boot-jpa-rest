@@ -41,6 +41,16 @@ The app defines following CRUD APIs.
 
 You can test them using postman or any other rest client.
 
+```bash
+curl -k http://localhost:8080/api/notes 
+curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' http://localhost:8080/api/notes 
+curl -k http://localhost:8080/api/notes/1
+```
+
+## H2 Console
+
+Open your web browser at the following address `http://localhost:8080/h2-console` and log on using as username `sa`, database `jdbc:h2:mem:DEMO`
+
 ## Deploy it on CloudFoundry
 
 1. Create first a MySQL service
