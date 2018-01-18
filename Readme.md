@@ -25,7 +25,7 @@ mvn clean spring-boot:run -Dspring.profiles.active=local -Ph2
 
 The app will start running at <http://localhost:8080>.
 
-## Explore Rest APIs
+**3. Explore Rest APIs**
 
 The app defines following CRUD APIs.
 
@@ -39,7 +39,7 @@ The app defines following CRUD APIs.
     
     DELETE /api/notes/{noteId}
 
-You can test them using postman or any other rest client.
+You can test them using postman or any other rest client such as `curl`.
 
 ```bash
 curl -k http://localhost:8080/api/notes 
@@ -47,7 +47,7 @@ curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note"
 curl -k http://localhost:8080/api/notes/1
 ```
 
-## H2 Console
+**4. Access the H2 Web Console**
 
 Open your web browser at the following address `http://localhost:8080/h2-console` and log on using as username `sa`, database `jdbc:h2:mem:DEMO`
 
