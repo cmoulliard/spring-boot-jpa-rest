@@ -15,7 +15,7 @@ Build Restful CRUD API for a simple Note-Taking application using Spring Boot, M
 **1. Clone the application**
 
 ```bash
-git@github.com:callicoder/spring-boot-mysql-rest-api-tutorial.git
+git clone https://github.com/cmoulliard/spring-boot-jpa-rest.git
 ```
 
 **2. Create Mysql database**
@@ -39,7 +39,12 @@ java -jar target/easy-notes-1.0.0.jar
 Alternatively, you can run the app without packaging it using -
 
 ```bash
-mvn spring-boot:run
+mvn spring-boot:run -Ph2 \
+  -Dspring.datasource.url=jdbc:h2:mem:DEMO; \
+  -Dspring.datasource.driverClassName=org.h2.Driver \
+  -Dspring.datasource.username=sa \
+  -Dspring.datasource.password= \
+  -Dspring.jpa.database-platform=org.hibernate.dialect.H2Dialect 
 ```
 
 The app will start running at <http://localhost:8080>.
