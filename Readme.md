@@ -159,9 +159,9 @@ curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note"
 curl -k $HOST/api/notes/1
 ```
 
-## Still experimental
+## To be investigated
 
-Start MiniShift with the experimental feature, OCP >= v3.7.1 and the Ansible Service Broker addon
+Start MiniShift with the experimental feature, OCP >= v3.7.1 and the MiniShift Ansible Service Broker addon
 
 ```bash
 git clone https://github.com/sabre1041/cdk-minishift-utils.git
