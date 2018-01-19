@@ -133,6 +133,9 @@ oc new-project demo-spring-db
 
 4. Deploy the MySQL Service within the namespace created
 
+The serviceInstance represents a provisioned instance of the MySQL ClusterServiceClass. When a new ServiceInstance resource is created, the Service Catalog controller
+will connect to the appropriate Service Broker and instruct it to provision the service instance.
+
 ```bash
 oc create -f openshift/mysql_serviceinstance.yml
 ```
@@ -143,13 +146,16 @@ oc create -f openshift/mysql_serviceinstance.yml
 oc new-app -f openshift/spring-boot-db-notes_template.yml
 ```
 
-6. Start the build
+6. Start the build using project's source
 
 ```bash
 oc start-build spring-boot-db-notes-s2i --from-dir=. --follow
 ```
 
-7. Bind the service to a secret
+7. Bind the credentials of the ServiceInstances to a Secret
+
+The following file will allow to access the credentials of the MySQL ServiceInstance. Upon creation, the Service Catalog controller will create a Kubernetes Secret containing connection details
+and credentials for the Service Instance, which can be mounted into Pods.
 
 ```bash
 oc create -f openshift/mysql-secret_servicebinding.yml
