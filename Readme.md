@@ -89,13 +89,31 @@ curl -k https://sb-db-rest.cfapps.io/api/notes/1
 
 Prereq : The Ansible Service Broker must be installed - https://github.com/openshift/ansible-service-broker/blob/master/docs/minishift.md !
 
-0. Start Minishift with experimental feature and OCP >= v3.7.0-rc.0
+0. Start MiniShift with the experimental feature and OCP >= v3.7.0-rc.0 and the Ansible Service Broker addon
 
 ```bash
-MINISHIFT_ENABLE_EXPERIMENTAL=y minishift create --service-catalog
-...
-oc new-project ansible-service-broker
+git clone https://github.com/sabre1041/cdk-minishift-utils.git
+minishift addons install cdk-minishift-utils/addons/ansible-service-broker/
 
+minishift config set openshift-version v3.7.0
+MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --service-catalog
+minishift addons apply ansible-service-broker
+minishift addons enable ansible-service-broker
+
+oc login -u system:admin        
+oc adm policy add-cluster-role-to-user cluster-admin admin
+
+#
+# OR
+# 
+
+minishift config set openshift-version v3.7.0
+minishift config set image-caching true
+MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --service-catalog
+
+oc new-project ansible-service-broker
+curl -s https://raw.githubusercontent.com/openshift/ansible-service-broker/master/templates/simple-broker-template.yaml | oc process -n "ansible-service-broker" -f - | oc create -f -
+oc get clusterserviceclasses --all-namespaces -o custom-columns=NAME:.metadata.name,DISPLAYNAME:spec.externalMetadata.displayName | grep APB
 ```
 
 1. Create a new namespace to host the project
@@ -111,13 +129,13 @@ oc new-project demo-spring-db
 #git clone https://github.com/ansibleplaybookbundle/mysql-apb.git && cd mysql-apb
 #apb serviceinstance
 # Doesn't work. So we will create the serviceInstance manually
-oc create -f openshift/mysql-serviceinstance.yml
+oc create -f openshift/mysql_serviceinstance.yml
 ```
 
 3. Create a new app on the cloud platform
 
 ```bash
-oc new-app -f openshift/spring-boot-db-notes.yml
+oc new-app -f openshift/spring-boot-db-notes_template.yml
 ```
 
 4. Start the build
@@ -129,7 +147,7 @@ oc start-build spring-boot-db-notes-s2i --from-dir=. --follow
 5. Bind the service to a secret
 
 ```bash
-oc create -f openshift/mysql-bind-spring-boot.yml
+oc create -f openshift/mysql-secret_servicebinding.yml
 # oc volume dc/spring-boot-db-notes --add --secret-name=spring-boot-notes-mysql-binding
 ```
 
