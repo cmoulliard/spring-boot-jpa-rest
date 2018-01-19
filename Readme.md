@@ -162,13 +162,13 @@ and credentials for the Service Instance, which can be mounted into Pods.
 oc create -f openshift/mysql-secret_servicebinding.yml
 ```
 
-8. Mount the secret within the dc
+8. Mount the secret within the Deploymentconfig
 
 ```bash
 oc env --from=secret/spring-boot-notes-mysql-binding dc/spring-boot-db-notes
 ```
 
-9. Test the service
+9. Wait till the pod is recreated and then test the service
 
 ```bash
 export HOST=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}')
