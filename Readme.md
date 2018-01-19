@@ -88,6 +88,7 @@ curl -k https://sb-db-rest.cfapps.io/api/notes/1
 ## Deploy it on OpenShift
 
 Prerequisite : The [Ansible Service Broker](https://github.com/openshift/ansible-service-broker/) must be installed locally as this feature is not yet available online !
+More info about the Kubernetes ServiceCatalog concepts are available [here](https://kubernetes.io/docs/concepts/service-catalog/)
 
 1. Start MiniShift with the experimental feature, OCP >= v3.7.1 and install Ansible Service Broker
 
