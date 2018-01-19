@@ -87,9 +87,9 @@ curl -k https://sb-db-rest.cfapps.io/api/notes/1
 
 ## Deploy it on OpenShift
 
-Prereq : The Ansible Service Broker must be installed - https://github.com/openshift/ansible-service-broker/blob/master/docs/minishift.md !
+Prerequisite : The [Ansible Service Broker](https://github.com/openshift/ansible-service-broker/) must be installed locally as this feature is not yet available online !
 
-0. Start MiniShift with the experimental feature and OCP >= v3.7.0-rc.0 and the Ansible Service Broker addon
+1a. Start MiniShift with the experimental feature, OCP >= v3.7.0 and the Ansible Service Broker addon
 
 ```bash
 git clone https://github.com/sabre1041/cdk-minishift-utils.git
@@ -99,65 +99,67 @@ minishift config set openshift-version v3.7.0
 MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --service-catalog
 minishift addons apply ansible-service-broker
 minishift addons enable ansible-service-broker
+```
 
-oc login -u system:admin        
-oc adm policy add-cluster-role-to-user cluster-admin admin
+1b. Start MiniShift with the experimental feature, OCP >= v3.7.0 and install Ansible Service Broker
 
-#
-# OR
-# 
-
+```bash
 minishift config set openshift-version v3.7.0
 minishift config set image-caching true
 MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --service-catalog
+oc login -u system:admin        
+oc adm policy add-cluster-role-to-user cluster-admin admin
+oc login -u admin -p admin
 
 oc new-project ansible-service-broker
 curl -s https://raw.githubusercontent.com/openshift/ansible-service-broker/master/templates/simple-broker-template.yaml | oc process -n "ansible-service-broker" -f - | oc create -f -
+```
+
+2. Check if the Service Catalog contains APB services
+
+The process to download the repository of the catalog and deploy it locally could take time !
+
+```bash
 oc get clusterserviceclasses --all-namespaces -o custom-columns=NAME:.metadata.name,DISPLAYNAME:spec.externalMetadata.displayName | grep APB
 ```
 
-1. Create a new namespace to host the project
+3. Create a new namespace to host the project
 
 ```bash
 oc new-project demo-spring-db
 ```
 
-2. Deploy the MySQL Service within the namespace created
+4. Deploy the MySQL Service within the namespace created
 
 ```bash
-#pip install apb
-#git clone https://github.com/ansibleplaybookbundle/mysql-apb.git && cd mysql-apb
-#apb serviceinstance
-# Doesn't work. So we will create the serviceInstance manually
 oc create -f openshift/mysql_serviceinstance.yml
 ```
 
-3. Create a new app on the cloud platform
+5. Create a new app on the cloud platform
 
 ```bash
 oc new-app -f openshift/spring-boot-db-notes_template.yml
 ```
 
-4. Start the build
+6. Start the build
 
 ```bash
 oc start-build spring-boot-db-notes-s2i --from-dir=. --follow
 ```
 
-5. Bind the service to a secret
+7. Bind the service to a secret
 
 ```bash
 oc create -f openshift/mysql-secret_servicebinding.yml
-# oc volume dc/spring-boot-db-notes --add --secret-name=spring-boot-notes-mysql-binding
 ```
 
-7. Mount the secret within the dc
+8. Mount the secret within the dc
 
 ```bash
 oc env --from=secret/spring-boot-notes-mysql-binding dc/spring-boot-db-notes
 ```
 
-8. Test the service
+9. Test the service
 
 ```bash
 export HOST=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}')
