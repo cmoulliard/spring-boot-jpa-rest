@@ -112,6 +112,17 @@ The process to download the repository of the catalog and deploy it locally coul
 
 ```bash
 oc get clusterserviceclasses --all-namespaces -o custom-columns=NAME:.metadata.name,DISPLAYNAME:spec.externalMetadata.displayName | grep APB
+0e991006d21029e47abe71acc255e807       Pyzip Demo (APB)
+135bd0df0401e2fdd52fd136935014fb       NGINX (APB)
+1dda1477cace09730bd8ed7a6505607e       PostgreSQL (APB)
+67042296c7c95e84142f21f58da2ebfe       MariaDB (APB)
+693cb128e68365830c913631300deac0       Pyzip Demo Database (APB)
+6df7afbd132c094704b4a8bfd44378c0       ManageIQ (APB)
+9f7da06f179b895a8ee5f9a3ce4af7ef       Hello World (APB)
+a946a139a9308a59bf642ac52b4ba317       Wordpress-HA (APB)
+ab24ffd54da0aefdea5277e0edce8425       Hastebin (APB)
+b43a4272a6efcaaa3e0b9616324f1099       Hello World Database (APB)
+...
 ```
 
 3. Create a new namespace to host the project
