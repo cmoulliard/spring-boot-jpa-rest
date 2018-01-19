@@ -89,27 +89,7 @@ curl -k https://sb-db-rest.cfapps.io/api/notes/1
 
 Prerequisite : The [Ansible Service Broker](https://github.com/openshift/ansible-service-broker/) must be installed locally as this feature is not yet available online !
 
-1a. Start MiniShift with the experimental feature, OCP >= v3.7.0 and the Ansible Service Broker addon
-
-```bash
-git clone https://github.com/sabre1041/cdk-minishift-utils.git
-minishift addons install cdk-minishift-utils/addons/ansible-service-broker/
-
-minishift config set openshift-version v3.7.1
-minishift config set image-caching true
-
-export MINISHIFT_ENABLE_EXPERIMENTAL=y
-minishift start --service-catalog
-
-oc login -u system:admin        
-oc adm policy add-cluster-role-to-user cluster-admin admin
-oc login -u admin -p admin
-
-minishift addons apply ansible-service-broker
-minishift addons enable ansible-service-broker
-```
-
-1b. Start MiniShift with the experimental feature, OCP >= v3.7.0 and install Ansible Service Broker
+1. Start MiniShift with the experimental feature, OCP >= v3.7.1 and install Ansible Service Broker
 
 ```bash
 minishift config set openshift-version v3.7.1
@@ -177,4 +157,26 @@ export HOST=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}')
 curl -k $HOST/api/notes 
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $HOST/api/notes 
 curl -k $HOST/api/notes/1
+```
+
+## Still experimental
+
+Start MiniShift with the experimental feature, OCP >= v3.7.1 and the Ansible Service Broker addon
+
+```bash
+git clone https://github.com/sabre1041/cdk-minishift-utils.git
+minishift addons install cdk-minishift-utils/addons/ansible-service-broker/
+
+minishift config set openshift-version v3.7.1
+minishift config set image-caching true
+
+export MINISHIFT_ENABLE_EXPERIMENTAL=y
+minishift start --service-catalog
+
+oc login -u system:admin        
+oc adm policy add-cluster-role-to-user cluster-admin admin
+oc login -u admin -p admin
+
+minishift addons apply ansible-service-broker
+minishift addons enable ansible-service-broker
 ```
