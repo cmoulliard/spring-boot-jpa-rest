@@ -95,8 +95,16 @@ Prerequisite : The [Ansible Service Broker](https://github.com/openshift/ansible
 git clone https://github.com/sabre1041/cdk-minishift-utils.git
 minishift addons install cdk-minishift-utils/addons/ansible-service-broker/
 
-minishift config set openshift-version v3.7.0
-MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --service-catalog
+minishift config set openshift-version v3.7.1
+minishift config set image-caching true
+
+export MINISHIFT_ENABLE_EXPERIMENTAL=y
+minishift start --service-catalog
+
+oc login -u system:admin        
+oc adm policy add-cluster-role-to-user cluster-admin admin
+oc login -u admin -p admin
+
 minishift addons apply ansible-service-broker
 minishift addons enable ansible-service-broker
 ```
@@ -104,9 +112,12 @@ minishift addons enable ansible-service-broker
 1b. Start MiniShift with the experimental feature, OCP >= v3.7.0 and install Ansible Service Broker
 
 ```bash
-minishift config set openshift-version v3.7.0
+minishift config set openshift-version v3.7.1
 minishift config set image-caching true
-MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --service-catalog
+
+export MINISHIFT_ENABLE_EXPERIMENTAL=y
+minishift start --service-catalog
+
 oc login -u system:admin        
 oc adm policy add-cluster-role-to-user cluster-admin admin
 oc login -u admin -p admin
