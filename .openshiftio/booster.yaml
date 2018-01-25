@@ -1,0 +1,5 @@
+name: Spring Boot JPA Example
+description: A booster demonstrating how to integrate a Spring Boot JPA
+versions:
+  - id: community
+    name: 1.5.8.RELEASE (Community)
